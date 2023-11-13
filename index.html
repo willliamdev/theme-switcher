@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="src/main.css" type="text/css" />
+</head>
+
+<body>
+  <div class="container">
+    <h1>Theme Switcher</h1>
+    <button id="switch" onclick="toggleTheme()">Switch</button>
+  </div>
+  <script>
+
+    function keepTheme() {
+      console.log('load')
+      const auto = localStorage.getItem('auto');
+      const theme = localStorage.getItem('theme');
+
+      if (auto === 'false') {
+        setTheme(theme, auto);
+        return;
+      }
+
+      const prefersLightTheme = window.matchMedia('(prefers-color-scheme: light)');
+      console.log(prefersLightTheme)
+      if (prefersLightTheme.matches) {
+        setTheme('theme-light', auto);
+        return;
+      }
+
+      setTheme('theme-dark', 'true');
+    }
+
+    function setTheme(themeName, auto) {
+      localStorage.setItem('theme', themeName);
+      localStorage.setItem('auto', auto);
+      // <html>
+      document.documentElement.className = themeName;
+    }
+
+    function toggleTheme() {
+      if (localStorage.getItem('theme') === 'theme-dark') {
+        setTheme('theme-light', 'false');
+      } else {
+        setTheme('theme-dark', 'false');
+      }
+
+    }
+
+    keepTheme();
+
+  </script>
+</body>
+
+</html>
